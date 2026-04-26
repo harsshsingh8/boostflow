@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import PayPalButton from './PayPalButton.jsx';
 
 const viewOptions = [
   { label: '1K', value: 1000, price: '$4.99' },
@@ -122,6 +123,24 @@ function App() {
       };
     }
   }, [reelLink, selectedViews]);
+
+  const handlePaymentSuccess = useCallback((result) => {
+    setIsBoosting(true);
+    setProgress(0);
+    setIsComplete(false);
+    setApiError(null);
+    setCurrentStatus(statusMessages[0]);
+    apiResultRef.current = {
+      order: result.order,
+      mode: result.mode,
+      message: result.message,
+    };
+  }, []);
+
+  const handlePaymentError = useCallback((errorMsg) => {
+    setApiError(errorMsg);
+    setIsBoosting(false);
+  }, []);
 
   const handleReset = useCallback(() => {
     setIsComplete(false);
@@ -270,7 +289,7 @@ function App() {
                   </div>
                 </div>
 
-                {/* Boost Button / Progress */}
+                {/* Boost Button / Progress / PayPal */}
                 {isBoosting ? (
                   <div className="space-y-4">
                     {/* Progress Bar */}
@@ -294,17 +313,28 @@ function App() {
                     </div>
                   </div>
                 ) : (
-                  <button
-                    onClick={handleStartBoost}
-                    disabled={!reelLink || !selectedViews}
-                    className={`w-full py-4 rounded-xl font-semibold text-white text-sm tracking-wide uppercase transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none ${
-                      reelLink && selectedViews
-                        ? 'bg-gradient-to-r from-accent-dark to-accent glow-button'
-                        : 'bg-white/10'
-                    }`}
-                  >
-                    Start Boost
-                  </button>
+                  <div className="space-y-3">
+                    <PayPalButton
+                      selectedViews={selectedViews}
+                      reelLink={reelLink}
+                      onSuccess={handlePaymentSuccess}
+                      onError={handlePaymentError}
+                    />
+                    <div className="text-center">
+                      <span className="text-xs text-gray-500">or</span>
+                    </div>
+                    <button
+                      onClick={handleStartBoost}
+                      disabled={!reelLink || !selectedViews}
+                      className={`w-full py-3 rounded-xl font-medium text-white text-xs tracking-wide uppercase transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none ${
+                        reelLink && selectedViews
+                          ? 'bg-white/5 border border-white/10 hover:border-accent/50 hover:bg-accent/10'
+                          : 'bg-white/5 border border-white/10'
+                      }`}
+                    >
+                      Start Boost (Free / Demo)
+                    </button>
+                  </div>
                 )}
               </>
             ) : (

@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import { handleRequest as handleSMMRequest, API_KEY as SMM_PANEL_KEY } from './backend/smm-panel/api.js';
 import { getAllOrders, getServices } from './backend/smm-panel/store.js';
 import { getStatus } from './backend/smm-panel/engine.js';
+import { createPayPalOrder, capturePayPalOrder } from './backend/paypal.js';
 
 dotenv.config();
 
@@ -164,6 +165,81 @@ app.get('/api/v2', async (req, res) => {
   const { key, action, order } = req.query;
   const result = await handleSMMRequest({ key, action, order });
   res.json(result);
+});
+
+// ============================================
+// PAYPAL PAYMENT ENDPOINTS
+// ============================================
+
+app.get('/api/paypal/config', (req, res) => {
+  const clientId = process.env.PAYPAL_CLIENT_ID;
+  if (!clientId) {
+    return res.status(503).json({ error: 'PayPal not configured' });
+  }
+  res.json({
+    clientId,
+    env: process.env.PAYPAL_ENV || 'sandbox',
+  });
+});
+
+app.post('/api/paypal/create-order', async (req, res) => {
+  try {
+    const { price, label, link, quantity } = req.body;
+    if (!price || !label || !link || !quantity) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const order = await createPayPalOrder({ price, label, link, quantity });
+    res.json({ orderId: order.id });
+  } catch (err) {
+    console.error('PayPal Create Order Error:', err.message);
+    res.status(500).json({ error: err.message || 'Failed to create PayPal order' });
+  }
+});
+
+app.post('/api/paypal/capture-order', async (req, res) => {
+  try {
+    const { orderId, link, quantity } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ error: 'Missing PayPal order ID' });
+    }
+
+    const capture = await capturePayPalOrder(orderId);
+
+    if (capture.status !== 'COMPLETED') {
+      return res.status(400).json({ error: 'Payment not completed', status: capture.status });
+    }
+
+    // Payment successful — place SMM order
+    const smmResult = await handleSMMRequest({
+      key: SMM_PANEL_KEY,
+      action: 'add',
+      service: 1,
+      link,
+      quantity: parseInt(quantity, 10),
+      runs: 12,
+      interval: 5,
+    });
+
+    if (smmResult.error) {
+      return res.status(400).json({
+        error: smmResult.error,
+        message: 'Payment succeeded but SMM order failed. Contact support.',
+        paypalOrderId: orderId,
+      });
+    }
+
+    res.json({
+      success: true,
+      order: smmResult.order.toString(),
+      paypalOrderId: orderId,
+      mode: 'internal-smm-panel',
+      message: 'Payment confirmed. Views transfer initiated!',
+    });
+  } catch (err) {
+    console.error('PayPal Capture Error:', err.message);
+    res.status(500).json({ error: err.message || 'Failed to capture payment' });
+  }
 });
 
 // ============================================
