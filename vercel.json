@@ -1,26 +1,15 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/dist/$1"
-    }
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/api/health", "destination": "/api/health" },
+    { "source": "/api/order", "destination": "/api/order" },
+    { "source": "/api/v2", "destination": "/api/v2" },
+    { "source": "/api/paypal/config", "destination": "/api/paypal/config" },
+    { "source": "/api/paypal/create-order", "destination": "/api/paypal/create-order" },
+    { "source": "/api/paypal/capture-order", "destination": "/api/paypal/capture-order" },
+    { "source": "/((?!api/).*)", "destination": "/" }
   ]
 }
