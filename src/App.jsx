@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 import PayPalButton from './PayPalButton.jsx';
 
 const viewOptions = [
@@ -157,6 +158,7 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-gray-100 overflow-x-hidden">
       <SpeedInsights />
+      <Analytics />
       {/* Background ambient effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px]" />
