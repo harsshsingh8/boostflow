@@ -38,8 +38,14 @@ export default function PayPalButton({ selectedViews, reelLink, onSuccess, onErr
         setPaypalReady(true);
         setLoading(false);
       } catch (err) {
+        // Fallback: load PayPal directly with hardcoded client ID
         if (!cancelled) {
-          setConfigError(err.message);
+          try {
+            await loadPayPalScript('Ac7tBj5EoEgz82HNT6_99dtI-T3fbkwDaJGHhTQWabuPKkSC_HN3-fxo23otojXp8uHwoJf1X7y5sQ7s', 'sandbox');
+            setPaypalReady(true);
+          } catch {
+            setConfigError('PayPal failed to load');
+          }
           setLoading(false);
         }
       }
