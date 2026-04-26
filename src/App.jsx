@@ -3,11 +3,11 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import PayPalButton from './PayPalButton.jsx';
 
 const viewOptions = [
-  { label: '1K', value: 1000, price: '$4.99' },
-  { label: '10K', value: 10000, price: '$29.99' },
-  { label: '50K', value: 50000, price: '$99.99' },
-  { label: '100K', value: 100000, price: '$179.99' },
-  { label: '1M', value: 1000000, price: '$899.99' },
+  { label: '1K', value: 1000, price: '$1.00' },
+  { label: '10K', value: 10000, price: '$4.99' },
+  { label: '50K', value: 50000, price: '$15.99' },
+  { label: '100K', value: 100000, price: '$29.99' },
+  { label: '1M', value: 1000000, price: '$99.00' },
 ];
 
 const statusMessages = [
@@ -177,9 +177,9 @@ function App() {
               <span className="text-accent neon-text">Flow</span>
             </span>
           </div>
-          <button className="px-5 py-2 rounded-lg border border-white/10 hover:border-accent/50 hover:bg-accent/10 transition-all duration-300 text-sm font-medium">
-            Login
-          </button>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="px-5 py-2 rounded-lg border border-white/10 hover:border-accent/50 hover:bg-accent/10 transition-all duration-300 text-sm font-medium">
+            Instagram
+          </a>
         </div>
       </header>
 
@@ -313,28 +313,12 @@ function App() {
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-3">
-                    <PayPalButton
-                      selectedViews={selectedViews}
-                      reelLink={reelLink}
-                      onSuccess={handlePaymentSuccess}
-                      onError={handlePaymentError}
-                    />
-                    <div className="text-center">
-                      <span className="text-xs text-gray-500">or</span>
-                    </div>
-                    <button
-                      onClick={handleStartBoost}
-                      disabled={!reelLink || !selectedViews}
-                      className={`w-full py-3 rounded-xl font-medium text-white text-xs tracking-wide uppercase transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none ${
-                        reelLink && selectedViews
-                          ? 'bg-white/5 border border-white/10 hover:border-accent/50 hover:bg-accent/10'
-                          : 'bg-white/5 border border-white/10'
-                      }`}
-                    >
-                      Start Boost (Free / Demo)
-                    </button>
-                  </div>
+                  <PayPalButton
+                    selectedViews={selectedViews}
+                    reelLink={reelLink}
+                    onSuccess={handlePaymentSuccess}
+                    onError={handlePaymentError}
+                  />
                 )}
               </>
             ) : (
