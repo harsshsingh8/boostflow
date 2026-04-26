@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || 'Ac7tBj5EoEgz82HNT6_99dtI-T3fbkwDaJGHhTQWabuPKkSC_HN3-fxo23otojXp8uHwoJf1X7y5sQ7s';
-const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET || 'EPp4BiyV6hbNT1oeQKvz8OVDOxSafV70rNWKKXG4fnM4uW7sDJqprme2oiB47H4z0Kz2GYARWq2UCsBQ';
-const PAYPAL_ENV = process.env.PAYPAL_ENV || 'sandbox';
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || 'AaCi1aE_vOFlp3hyWA4CSiebcp37z5YaFDIEctTELT43J5OrdQxZUDLAvzW4fl0TKR_AYeRyBmTovSfE';
+const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET || 'EDr3uQNujs88bhpXbODjfr72PeFUV2MjKsWE0G26P9Rt0WTRuCoZP2pVyEHl7hPSwBW6R6zpdJPDuQq_';
+const PAYPAL_ENV = process.env.PAYPAL_ENV || 'live';
 
 const BASE_URL = PAYPAL_ENV === 'live'
   ? 'https://api-m.paypal.com'

@@ -28,8 +28,8 @@ export default function PayPalButton({ selectedViews, reelLink, onSuccess, onErr
       try {
         const res = await fetch('/api/paypal/config');
         const data = await res.json();
-        const clientId = data.clientId || 'Ac7tBj5EoEgz82HNT6_99dtI-T3fbkwDaJGHhTQWabuPKkSC_HN3-fxo23otojXp8uHwoJf1X7y5sQ7s';
-        const env = data.env || 'sandbox';
+        const clientId = data.clientId || 'AaCi1aE_vOFlp3hyWA4CSiebcp37z5YaFDIEctTELT43J5OrdQxZUDLAvzW4fl0TKR_AYeRyBmTovSfE';
+        const env = data.env || 'live';
         if (cancelled) return;
 
         await loadPayPalScript(clientId, env);
@@ -41,7 +41,7 @@ export default function PayPalButton({ selectedViews, reelLink, onSuccess, onErr
         // Fallback: load PayPal directly with hardcoded client ID
         if (!cancelled) {
           try {
-            await loadPayPalScript('Ac7tBj5EoEgz82HNT6_99dtI-T3fbkwDaJGHhTQWabuPKkSC_HN3-fxo23otojXp8uHwoJf1X7y5sQ7s', 'sandbox');
+            await loadPayPalScript('AaCi1aE_vOFlp3hyWA4CSiebcp37z5YaFDIEctTELT43J5OrdQxZUDLAvzW4fl0TKR_AYeRyBmTovSfE', 'live');
             setPaypalReady(true);
           } catch {
             setConfigError('PayPal failed to load');
