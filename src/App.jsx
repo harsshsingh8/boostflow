@@ -2,6 +2,30 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import PayPalButton from './PayPalButton.jsx';
 
+function AdSenseAd({ className = '' }) {
+  const adRef = useRef(null);
+  useEffect(() => {
+    try {
+      if (window.adsbygoogle && adRef.current) {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
+    } catch (e) {
+      console.error('AdSense error:', e);
+    }
+  }, []);
+  return (
+    <ins
+      ref={adRef}
+      className={`adsbygoogle ${className}`}
+      style={{ display: 'block' }}
+      data-ad-client="ca-pub-3710039701001727"
+      data-ad-slot=""
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    />
+  );
+}
+
 const viewOptions = [
   { label: '1K', value: 1000, price: '$1.00' },
   { label: '10K', value: 10000, price: '$4.99' },
@@ -184,8 +208,10 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 flex items-center justify-center px-6 py-16 min-h-[calc(100vh-80px)]">
-        <div className="w-full max-w-lg">
+      <main className="relative z-10 flex items-center justify-center px-6 py-8 min-h-[calc(100vh-80px)]">
+        <div className="w-full max-w-lg space-y-6">
+          {/* Top Ad */}
+          <AdSenseAd className="min-h-[90px] bg-white/5 rounded-xl border border-white/5" />
           {/* Glass Card */}
           <div className="glass glass-border rounded-2xl p-8 relative overflow-hidden">
             {/* Glowing top border */}
@@ -394,6 +420,9 @@ function App() {
               No Password Required
             </div>
           </div>
+
+          {/* Bottom Ad */}
+          <AdSenseAd className="min-h-[90px] bg-white/5 rounded-xl border border-white/5" />
         </div>
       </main>
     </div>
