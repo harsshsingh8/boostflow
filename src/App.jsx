@@ -210,8 +210,6 @@ function App() {
       {/* Main Content */}
       <main className="relative z-10 flex items-center justify-center px-6 py-8 min-h-[calc(100vh-80px)]">
         <div className="w-full max-w-lg space-y-6">
-          {/* Top Ad */}
-          <AdSenseAd className="min-h-[90px] bg-white/5 rounded-xl border border-white/5" />
           {/* Glass Card */}
           <div className="glass glass-border rounded-2xl p-8 relative overflow-hidden">
             {/* Glowing top border */}
