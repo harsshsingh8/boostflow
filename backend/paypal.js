@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || 'Ac7tBj5EoEgz82HNT6_99dtI-T3fbkwDaJGHhTQWabuPKkSC_HN3-fxo23otojXp8uHwoJf1X7y5sQ7s';
+const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET || 'EPp4BiyV6hbNT1oeQKvz8OVDOxSafV70rNWKKXG4fnM4uW7sDJqprme2oiB47H4z0Kz2GYARWq2UCsBQ';
 const PAYPAL_ENV = process.env.PAYPAL_ENV || 'sandbox';
 
 const BASE_URL = PAYPAL_ENV === 'live'

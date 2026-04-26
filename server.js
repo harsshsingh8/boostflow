@@ -172,10 +172,7 @@ app.get('/api/v2', async (req, res) => {
 // ============================================
 
 app.get('/api/paypal/config', (req, res) => {
-  const clientId = process.env.PAYPAL_CLIENT_ID;
-  if (!clientId) {
-    return res.status(503).json({ error: 'PayPal not configured' });
-  }
+  const clientId = process.env.PAYPAL_CLIENT_ID || 'Ac7tBj5EoEgz82HNT6_99dtI-T3fbkwDaJGHhTQWabuPKkSC_HN3-fxo23otojXp8uHwoJf1X7y5sQ7s';
   res.json({
     clientId,
     env: process.env.PAYPAL_ENV || 'sandbox',

@@ -27,10 +27,9 @@ export default function PayPalButton({ selectedViews, reelLink, onSuccess, onErr
     async function init() {
       try {
         const res = await fetch('/api/paypal/config');
-        if (!res.ok) {
-          throw new Error('PayPal not configured on server');
-        }
-        const { clientId, env } = await res.json();
+        const data = await res.json();
+        const clientId = data.clientId || 'Ac7tBj5EoEgz82HNT6_99dtI-T3fbkwDaJGHhTQWabuPKkSC_HN3-fxo23otojXp8uHwoJf1X7y5sQ7s';
+        const env = data.env || 'sandbox';
         if (cancelled) return;
 
         await loadPayPalScript(clientId, env);
