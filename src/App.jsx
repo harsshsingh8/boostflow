@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const viewOptions = [
   { label: '1K', value: 1000, price: '$4.99' },
@@ -136,6 +137,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background text-gray-100 overflow-x-hidden">
+      <SpeedInsights />
       {/* Background ambient effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px]" />
