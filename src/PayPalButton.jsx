@@ -58,6 +58,9 @@ export default function PayPalButton({ selectedViews, reelLink, onSuccess, onErr
   useEffect(() => {
     if (!paypalReady || !buttonRef.current || !selectedViews) return;
 
+    // Clear previous button before rendering new one
+    buttonRef.current.innerHTML = '';
+
     const price = selectedViews.price.replace('$', '');
 
     window.paypal
